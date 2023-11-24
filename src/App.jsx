@@ -1,17 +1,12 @@
-import { useState } from 'react'
+import React, { useEffect } from 'react'
+import Login from './components/Login';
 
-import Todos from "./components/Todos";
-import AddTodo from "./components/AddTodo";
-import Counter from './components/Counter';
-
-function App(){
+function App() {
   return (
     <>
-      <Todos />
-      <AddTodo />
-      <Counter />
+      <Login />
     </>
   )
 }
 
-export default App;
+export default App
