@@ -5,7 +5,7 @@ import { loginHandlerReducer } from '../features/user/userSlice';
 
 function Login() {
     const dispatch = useDispatch();
-    const state = useSelector((state) => state.user);
+
     const emailRef = useRef();
     const passwordRef = useRef();
     const [message, setMessage] = useState('');
@@ -48,20 +48,38 @@ function Login() {
         <>
             <div>Login Page</div>
             {message && <p>{message}</p>}
-            {loading && <p>{loading}</p>}
-            <input
-                ref={emailRef}
-                type="text"
-                placeholder='email'
-            /> <br />
-            <input
-                ref={passwordRef}
-                type="text"
-                placeholder='password'
-            /> <br />
-            <button onClick={handleLogin}>Login here</button>
+            {loading && <p>Loading...</p>}
+            {!loading && message.includes('successful') && (
+                <Redirecting />
+            )}
+            {!loading && !message.includes('successful') && (
+                <>
+                    <input ref={emailRef} type="text" placeholder="email" /> <br />
+                    <input ref={passwordRef} type="text" placeholder="password" /> <br />
+                    <button onClick={handleLogin}>Login here</button>
+                </>
+            )}
         </>
-    )
+    );
 }
 
+function Redirecting() {
+    const [countdown, setCountdown] = useState(3);
+
+    const tick = () => {
+        setCountdown(old => old - 1);
+    }
+
+    useEffect(() => {
+        const intervalId = setInterval(tick, 1000);
+        return () => {
+            clearInterval(intervalId);
+            console.log("redirecting countdown cleaned.");
+        }
+    }, []);
+
+    return (
+        <p>Redirecting to profile page in {countdown} seconds...</p>
+    )
+}
 export default Login

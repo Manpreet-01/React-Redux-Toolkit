@@ -4,6 +4,13 @@ const initialState = {
     access_token: null,
     refresh_token: null,
     error: null,
+    avatar: null,
+    name: null,
+    email: null,
+    password: null,
+    id: null,
+    role: null,
+    avatar: null,
 };
 
 export const userSlice = createSlice({
@@ -15,8 +22,26 @@ export const userSlice = createSlice({
             state.refresh_token = payload.refresh_token
             state.error = payload.error
         },
+        sessionHandlerReducer: (state, { payload }) => {
+            state.id = payload.id;
+            state.name = payload.name;
+            state.email = payload.email;
+            state.password = payload.password;
+            state.role = payload.role;
+            state.avatar = payload.avatar;
+        },
+        logoutHandlerReducer: (state, payload) => {
+            Object.keys(state).forEach(prop => {
+                state[prop] = null;
+            })
+        }
     },
 });
 
-export const { loginHandlerReducer } = userSlice.actions;
+export const {
+    loginHandlerReducer,
+    sessionHandlerReducer,
+    logoutHandlerReducer,
+} = userSlice.actions;
+
 export default userSlice.reducer;
